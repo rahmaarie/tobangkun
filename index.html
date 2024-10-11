@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <!-- Hubungkan CSS eksternal -->
+    <link rel="stylesheet" href="style.css" />
+    <title>Pesan Dariku Untukmu </title>
+  </head>
+  <body>
+    <audio autoplay type="audio" loop="" class="audio"></audio>
+    <div class="bg"></div>
+
+    <div class="content animate__animated animate__bounceInDown">
+      <div class="card">
+        <div>
+          <h3>Satu pesan belum terbaca</h3>
+        </div>
+        <img onclick="tampil()" class="surat" src="mail.jpg" alt="MAIL" />
+        <p>Tekan untuk membuka</p>
+      </div>
+    </div>
+
+    <div class="content2">
+      <div class="paper animate__animated animate__bounceIn" id="content2">
+        <div class="paper-content">
+          <textarea class="pesan" disabled></textarea>
+        </div>
+      </div>
+      <div class="wa animate__animated animate__fadeInUp">
+        <button onclick="balasWA()">Balas Pesan</button>
+        <button onclick="nextSurat()">Next</button>
+      </div>
+    </div>
+
+    <!-- Javascript untuk fungsionalitas -->
+    <script>
+      var musik = "music.mp3";
+      var background = "NAMA FILE BACKGROUND";
+      var pesanWhatsapp = "PESAN WHATSAPP";
+      
+      // Array untuk menyimpan daftar surat
+      var suratList = [
+        "Good Pagi/Setengah awan/Sore/Dalu Abang Ridho Kuncoro\n How's life ?\n What's new ?\n Heii, aku tau desain website ini mungkin kelihatan 'sepi', kurang lebih hidup dan menarik. Gimana menurut bangkun ?\n ",
+        "Bangg,terima kasih banyak atas kesempatan untuk bisa mengenal Abangkun lebih dekat.\n Jujur sejak mulai mengenal bangkun,aku merasa banyak hal yang sangat berharga yang rahma pelajari.\n Bangkun selalu memberikan contoh yang baik, baik dalam cara berpikir, bersikap, maupun dalam hal-hal kecil yang mungkin tak semua orang perhatikan.\n Ada banyak pelajaran hidup dan nilai-nilai positif yang aku dapatkan dari pertemanan kita dan aku benar-benar merasa bersyukur bisa belajar banyak dari bangkun.\n Mengenal bangkun lebih jauh,aku jadi sadar bahwa ada banyak hal yang mungkin nggak akan rahma temukan di orang lain atau di tempat lain.\n Bangkun bukan hanya kakak tingkat yang aku hormati,tapi juga seseorang yang memberi dampak positif dalam hidupku, entah itu dari cara bangkun berbagi pengetahuan, atau bahkan dalam cara bangkun memberi dukungan.\n Pengalaman ini sangat berharga buatku, dan ingin mengucapkan terima kasih karena telah meluangkan waktu dan perhatianmu.\n Aku harap kita bisa tetap saling belajar dan mendukung satu sama lain ke depannya.\n Aku benar-benar menghargai semua kebaikan yang sudah bangkun berikan.\n Terima kasih sekali lagi atas segalanya.Terima kasih sudah mau mengenal pribadiku yang tidak semua orang tau.\n",
+        "Maaf ya bangkun, kalau aku sering maksain buat chat atau nyariin,apalagi di saat-saat yang mungkin kurang pas kayak waktu istirahat atau ketika bangkun lagi sibuk.\n Aku sadar banget kalau kadang notif dari aku mungkin mengganggu, dan aku harap nggak terlalu bikin risih atau merepotkan.\n Sebenarnya, aku sering nge-chat bukan tanpa alasan, tapi karena aku merasa nyaman dan percaya buat nanya atau ngobrol sama bangkun.\n bangkun selalu sabar menjelaskan dan bantuin aku dengan hal-hal yang nggak rahma mengerti, dan rahma bener-bener menghargai itu.\n Tapi, kalau memang ada saat-saat di mana rahma terlalu sering menghubungi dan mengganggu waktunya bangkun, rahma benar-benar minta maaf.\n Rahma akan lebih hati-hati ke depannya supaya nggak ganggu atau bikin bangkun nggak nyaman.\n Aku cuma mau bilang terima kasih juga karena kakak udah sabar sama rahma selama ini, dan aku sangat menghargai kebaikan bangkun.\n Aku harap kita bisa tetap berhubungan baik tanpa merasa terbebani atau terganggu.\n Sekali lagi, terima kasih atas pengertian dan bantuannya selama ini. Aku benar-benar menghargainya, dan aku akan berusaha untuk tidak terlalu sering mengganggu bangkun lagi\n Tapi kalo tetep ndak bisa pie ?\n Yo garek chat 'pcc bangkun ngunu ? xixixi'\n "
+      ];
+
+      var currentSuratIndex = 0;  // Untuk melacak surat yang sedang ditampilkan
+
+      var audio = document.querySelector(".audio");
+      var bg = document.querySelector(".bg");
+      var isiSurat = document.querySelector(".pesan");
+
+      audio.src = musik;
+      bg.style = "background-image: url('" + background + "')";
+
+      function tampil() {
+        document.querySelector(".card").style =
+          "transition: 0.5s all ease;transform: scale(0);opacity: 0;";
+        audio.play();
+        setTimeout(typeWriter, 1000);
+        setTimeout(function () {
+          document.querySelector(".content2").style.display = "block";
+        }, 400);
+      }
+
+      var i = 0;
+      var speed = 100;
+      isiSurat.value = "";
+
+      function typeWriter() {
+        if (i < suratList[currentSuratIndex].length) {
+          isiSurat.value += suratList[currentSuratIndex].charAt(i);
+          i++;
+          setTimeout(typeWriter, speed);
+        } else {
+          document.querySelector(".wa").style.display = "block";
+        }
+      }
+
+      function nextSurat() {
+        if (currentSuratIndex < suratList.length - 1 && currentSuratIndex < 2) {
+            currentSuratIndex++; // Pindah ke surat berikutnya selama belum mencapai surat ketiga
+        } else {
+            alert("Ini adalah lembar terakhir."); // Menampilkan pemberitahuan bahwa ini surat terakhir
+          return; // Stop di surat ketiga
+        }
+        i = 0;  // Reset counter surat
+        isiSurat.value = "";  // Kosongkan textarea
+        typeWriter();  // Tampilkan surat berikutnya
+      }
+
+
+      function balasWA() {
+        window.open("https://wa.me/?text=" + pesanWhatsapp, "_blank");
+      }
+    </script>
+  </body>
+</html>
